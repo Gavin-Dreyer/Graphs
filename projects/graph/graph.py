@@ -114,7 +114,7 @@ class Graph:
                 print(v)
                 visited.add(v)
                 # Call dft_recursive on each neighbor
-                if self.get_neighbors:
+                if self.get_neighbors(v):
                     for i in self.get_neighbors(v):
                         s.push(i)
                         self.dft_recursive(i)
@@ -193,7 +193,7 @@ class Graph:
                         # ENQUEUE THE COPY
                         s.push(temp)
 
-    def dfs_recursive(self, starting_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -201,7 +201,43 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # Create a stack
+        s = Stack()
+
+        # Push the starting vertex
+        s.push(starting_vertex)
+        # While the stack is not empty...
+        while s.size() > 0:
+            # Pop the first vertex
+            v = s.pop()
+            if isinstance(v, list):
+                vert = v[-1]
+            else:
+                vert = v
+
+            # Check if the node has been visited
+            # If not...
+            if vert not in visited:
+                # Mark it as visited
+                visited.add(vert)
+                # Call dft_recursive on each neighbor
+                if vert == destination_vertex:
+                    print(v)
+                    return v
+                else:
+                    if self.get_neighbors(vert):
+                        for i in self.get_neighbors(vert):
+                            if isinstance(v, list):
+                                temp = v.copy()
+                                temp.append(i)
+                                s.push(temp)
+                                self.dfs_recursive(temp, destination_vertex)
+                            else:
+                                temp = [vert]
+                                temp.append(i)
+                                self.dfs_recursive(temp, destination_vertex)
+                    else:
+                        return
 
 
 if __name__ == '__main__':
@@ -269,5 +305,5 @@ if __name__ == '__main__':
     #     [1, 2, 4, 6]
     #     [1, 2, 4, 7, 6]
     # '''
-    print(graph.dfs(1, 6))
-    # print(graph.dfs_recursive(1, 6))
+    # print(graph.dfs(1, 6))
+    print(graph.dfs_recursive(1, 6))
