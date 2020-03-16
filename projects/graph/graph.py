@@ -53,7 +53,7 @@ class Graph:
             v = q.dequeue()
             # Check if it's been visited
             # If it hasn't been visited...
-            if v in visited:
+            if v not in visited:
                 # Mark it as visited
                 print(v)
                 visited.add(v)
@@ -128,19 +128,35 @@ class Graph:
         breath-first order.
         """
         # Create a queue
+        q = Queue()
         # Enqueue A PATH TO starting vertex
+        q.enqueue([starting_vertex])
         # Create a set to store visited vertices
+        visited = set()
         # While the queue is not empty...
-        # Dequeue the first vertex
-        # GRAB THE VERTEX FROM THE END OF THE PATH
-        # Check if it's been visited
-        # If it hasn't been visited...
-        # Mark it as visited
-        # CHECK IF ITS THE TARGET
-        # IF SO, RETURN THE PATH
-        # Enqueue A PATH TO ALL of its neighbors
-        # MAKE A COPY OF THE PATH
-        # ENQUEUE THE COPY
+        while q.size() > 0:
+            # Dequeue the first vertex
+            v = q.dequeue()
+            # GRAB THE VERTEX FROM THE END OF THE PATH
+            vert = v[-1]
+            # Check if it's been visited
+            # If it hasn't been visited...
+            if vert not in visited:
+                # Mark it as visited
+                print(vert)
+                visited.add(vert)
+                # CHECK IF ITS THE TARGET
+                if vert == destination_vertex:
+                    # IF SO, RETURN THE PATH
+                    return v
+                else:
+                    # Enqueue A PATH TO ALL of its neighbors
+                    for i in self.get_neighbors(vert):
+                        # MAKE A COPY OF THE PATH
+                        temp = v.copy()
+                        temp.append(i)
+                        # ENQUEUE THE COPY
+                        q.enqueue(temp)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -213,13 +229,13 @@ if __name__ == '__main__':
         1, 2, 4, 6, 3, 5, 7
     '''
     # graph.dft(1)
-    graph.dft_recursive(1)
+    # graph.dft_recursive(1)
 
     # '''
     # Valid BFS path:
     #     [1, 2, 4, 6]
     # '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     # '''
     # Valid DFS paths:
