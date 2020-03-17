@@ -190,10 +190,10 @@ class Graph:
                         # MAKE A COPY OF THE PATH
                         temp = v.copy()
                         temp.append(i)
-                        # ENQUEUE THE COPY
+                        # PUSH THE COPY
                         s.push(temp)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex, visited=set()):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=set(), path=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -201,7 +201,6 @@ class Graph:
 
         This should be done using recursion.
         """
-        # Create a stack
         s = Stack()
 
         # Push the starting vertex
@@ -214,7 +213,6 @@ class Graph:
                 vert = v[-1]
             else:
                 vert = v
-
             # Check if the node has been visited
             # If not...
             if vert not in visited:
@@ -222,8 +220,9 @@ class Graph:
                 visited.add(vert)
                 # Call dft_recursive on each neighbor
                 if vert == destination_vertex:
-                    print(v)
-                    return v
+                    path = v
+                    print(path)
+                    return path
                 else:
                     if self.get_neighbors(vert):
                         for i in self.get_neighbors(vert):
