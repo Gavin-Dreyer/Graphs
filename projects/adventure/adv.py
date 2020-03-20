@@ -13,10 +13,10 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-map_file = "maps/test_cross.txt"
+# map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph = literal_eval(open(map_file, "r").read())
@@ -66,9 +66,6 @@ def connections(room):
     return the_rooms[room]
 
 
-# number of moves counter
-counter = 0
-
 # starts in dft and progresses with player_traversal
 
 
@@ -102,14 +99,11 @@ def player_traversal(current_location, next_location):
             if vert[1] not in visited_bfs:
                 visited_bfs.add(vert[1])
                 if vert[1] == next_location.id:
-                    global counter
                     # move the player based on the path provided by the BFS
                     # ex: of navigation the cross map from room 8 to room 1
                     # (<room.Room object at 0x10b7ae1d0>, 8), ('e', 7), ('e', 0), ('n', 1)]
                     for i in range(1, len(v)):
-                        counter += 1
-                        player.travel(v[i][0])
-                        visited_rooms.add(player.current_room)
+                        traversal_path.append(v[i][0])
                 else:
                     # standard queue structure
                     for i in connections(vert[1]):
@@ -169,9 +163,9 @@ def dft(starting_location):
 
 print(dft(player.current_room))
 print(counter)
-# for move in traversal_path:
-#     player.travel(move)
-#     visited_rooms.add(player.current_room)
+for move in traversal_path:
+    player.travel(move)
+    visited_rooms.add(player.current_room)
 
 if len(visited_rooms) == len(room_graph):
     print(
