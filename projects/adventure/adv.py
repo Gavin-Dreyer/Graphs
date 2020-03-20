@@ -162,7 +162,6 @@ def dft(starting_location):
 
 
 print(dft(player.current_room))
-print(counter)
 for move in traversal_path:
     player.travel(move)
     visited_rooms.add(player.current_room)
